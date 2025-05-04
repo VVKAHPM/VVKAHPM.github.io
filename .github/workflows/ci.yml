@@ -24,6 +24,6 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin https://<your_token>@github.com/VVKAHPM/VVKAHPM.github.io.git
+          git remote set-url origin https://${your_token}@github.com/VVKAHPM/VVKAHPM.github.io.git
           git push origin main
        
