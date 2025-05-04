@@ -18,11 +18,11 @@ jobs:
           python-version: 3.x
 
       - run: pip install mkdocs-material
-
-      - name: Deploy to GitHub Pages
-        env:
-          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          mkdocs gh-deploy --force --remote-name origin --remote-branch gh-pages --message "Deployed by GitHub Actions"
+      - name: Push to Github Pages
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git remote set-url origin https://<your_token>@github.com/VVKAHPM/VVKAHPM.github.io.git
+          git push origin main
+        env:
+          your_token: ${{ secrets.DEPLOY_TOKEN }}
