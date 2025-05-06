@@ -1,48 +1,99 @@
-site_name: WKAHPM's Blog
-site_url: https://VVKAHPM.github.io
-theme:
-  name: material
-  language: en
-  logo: assets/avatar.png
-  favicon: assets/avatar.jpg
-  palette:
-
-    # Toggle light mode
-    - scheme: default
-      primary: white
-      accent: white
-      toggle:
-        icon: material/toggle-switch
-        name: Switch to light mode
-
-    # Toggle dark mode
-    - scheme: slate
-      primary: black
-      accent: black
-      toggle:
-        icon: material/toggle-switch-off-outline
-        name: Switch to dark mode
-  features:
-    - content.code.copy
-    - content.code.annotate
-    - content.tabs.link
-    - navigation.instant
-    - navigation.instant.progress
-    # - navigation.instant.preview
-    - navigation.tracking
-    - navigation.tabs
-    - navigation.tabs.sticky
-    # - navigation.sections
-    # - navigation.expand
-    - navigation.path
-    - navigation.prune
-    - navigation.indexes
-    - navigation.top
-    - navigation.footer
-    - toc.follow
-    # - toc.integrate
-    - search.suggest
-    - search.highlight
-    - search.share
-    - header.autohide
-    - content.action.edit
+site_name: WKAHPM's Blog
+site_url: https://VVKAHPM.github.io/
+site_author: WKAHPM
+theme:
+  name: material
+  language: en
+  logo: assets/avatar.png
+  favicon: assets/avatar.jpg
+  palette:
+
+    # Toggle light mode
+    - scheme: default
+      primary: white
+      accent: white
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+    # Toggle dark mode
+    - scheme: slate
+      primary: black
+      accent: black
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - content.code.copy
+    - content.code.annotate
+    # - toc.integrate
+    - content.tabs.link
+    - search.highlight
+    - search.suggest
+    - navigation.top
+    - navigation.tabs
+    - navigation.sections
+    - navigation.footer
+    - navigation.tracking
+    - navigation.instant.progress
+    - navigation.instant.preview
+nav:
+    - Home: index.md
+markdown_extensions:
+  - meta # 支持在 Markdown 文件头部添加元数据：
+  - toc:  # 设置后在右侧边栏可以看到目录
+      permalink: true
+      toc_depth: 4
+  - abbr
+  - tables #增强的表格支持
+  - pymdownx.inlinehilite # 行内代码高亮
+  - pymdownx.snippets     # 代码片段
+  - pymdownx.magiclink    # 自动链接
+  - pymdownx.critic:      # 编辑标记,突出显示文档中添加、删除或更新的部分
+      mode: view    #查看更改
+  - pymdownx.tilde      # 删除线
+  - pymdownx.mark        # ==标记==
+  - pymdownx.caret      # 上标
+  - pymdownx.keys       # 键盘按键
+  - md_in_html
+  # 此配置允许使用简单的语法向所有内联和块级元素添加属性，将任何链接转换为按钮
+  - attr_list
+  - pymdownx.blocks.caption
+  - pymdownx.arithmatex:  # latex支持 数学公式
+      generic: true
+      # numbering: true #启用公式编号
+  - pymdownx.highlight: # 代码块高亮
+      anchor_linenums: true
+      linenums: true # 显示行号
+      auto_title: true # 显示编程语言名称
+  - pymdownx.emoji: #添加表情符号支持
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      options: 
+        custom_icons: 
+          - docs/overrides/.icons
+  # 告警信息语法
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+        custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - def_list
+  - pymdownx.tasklist: #任务列表支持
+      custom_checkbox: true    # 自定义复选框样式
+      clickable_checkbox: true # 可点击
+  - pymdownx.tabbed:    # 标签页样式
+      alternate_style: true
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/VVKAHPM
+      name: github
+    - icon: material/email
+      link: mailto:<978088232@qq.com>
+      name: mail
