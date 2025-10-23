@@ -10,9 +10,9 @@ theme:
 
   language: en
 
-  logo: assets/avatar.png
+  logo: assets/image/avatar.png
 
-  favicon: assets/avatar.jpg
+  favicon: assets/image/avatar.jpg
 
   palette:
 
