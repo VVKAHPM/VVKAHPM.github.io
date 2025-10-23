@@ -6,4 +6,7 @@
 
 ## Section 2
 
-### Subsection 2.1# C
+### Subsection 2.1
+# C
+
+$a=b$
