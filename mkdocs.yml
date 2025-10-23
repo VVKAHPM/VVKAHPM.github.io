@@ -1,51 +1,99 @@
-site_name: WKAHPM's Blog
-site_url: https://VVKAHPM.github.io/
-site_author: WKAHPM
-theme:
-  name: material
-  language: en
-  logo: assets/avatar.png
-  favicon: assets/avatar.jpg
-  palette:
-
-    # Toggle light mode
-    - scheme: default
-      primary: white
-      accent: white
-      toggle:
-        icon: material/toggle-switch
-        name: Switch to light mode
-
-    # Toggle dark mode
-    - scheme: slate
-      primary: black
-      accent: black
-      toggle:
-        icon: material/toggle-switch-off-outline
-        name: Switch to dark mode
-  font:
-    text: Roboto
-    code: Roboto Mono
-  features:
-    - content.code.copy
-    - content.code.annotate
-    # - toc.integrate
-    - content.tabs.link
-    - search.highlight
-    - search.suggest
-    - navigation.top
-    - navigation.tabs
-    - navigation.sections
-    - navigation.footer
-    - navigation.tracking
-    - navigation.instant.progress
-    - navigation.instant.preview
-nav:
-    - Home: index.md
-markdown_extensions:
-  - meta # 支持在 Markdown 文件头部添加元数据：
-  - toc:  # 设置后在右侧边栏可以看到目录
-      permalink: true
+site_name: WKAHPM's Blog
+
+site_url: https://VVKAHPM.github.io/
+
+site_author: WKAHPM
+
+theme:
+
+  name: material
+
+  language: en
+
+  logo: assets/avatar.png
+
+  favicon: assets/avatar.jpg
+
+  palette:
+
+
+
+    # Toggle light mode
+
+    - scheme: default
+
+      primary: white
+
+      accent: white
+
+      toggle:
+
+        icon: material/toggle-switch
+
+        name: Switch to light mode
+
+
+
+    # Toggle dark mode
+
+    - scheme: slate
+
+      primary: black
+
+      accent: black
+
+      toggle:
+
+        icon: material/toggle-switch-off-outline
+
+        name: Switch to dark mode
+
+  font:
+
+    text: Roboto
+
+    code: Roboto Mono
+
+  features:
+
+    - content.code.copy
+
+    - content.code.annotate
+
+    # - toc.integrate
+
+    - content.tabs.link
+
+    - search.highlight
+
+    - search.suggest
+
+    - navigation.top
+
+    - navigation.tabs
+
+    - navigation.sections
+
+    - navigation.footer
+
+    - navigation.tracking
+
+    - navigation.instant.progress
+
+    - navigation.instant.preview
+
+nav:
+
+    - Home: index.md
+
+markdown_extensions:
+
+  - meta # 支持在 Markdown 文件头部添加元数据：
+
+  - toc:  # 设置后在右侧边栏可以看到目录
+
+      permalink: true
+
       toc_depth: 4
   - abbr
   - tables #增强的表格支持
@@ -97,3 +145,8 @@ extra:
     - icon: material/email
       link: mailto:<978088232@qq.com>
       name: mail
+
+extra_javascript:
+  - javascripts/config.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
