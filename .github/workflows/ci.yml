@@ -17,13 +17,18 @@ jobs:
         with:
           python-version: 3.x
 
-      - run: pip install mkdocs-material
+      - run: pip install -r requirements.txt
       - name: Push to Github Pages
-        env:
+        env:
+
           your_token: ${{ secrets.DEPLOY_TOKEN }} 
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin https://${your_token}@github.com/VVKAHPM/VVKAHPM.github.io.git
+        run: |
+
+          git config --global user.name 'github-actions[bot]'
+
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          git remote set-url origin https://${your_token}@github.com/VVKAHPM/VVKAHPM.github.io.git
+
           mkdocs gh-deploy --force --remote-name origin
        

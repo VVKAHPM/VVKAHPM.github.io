@@ -1,0 +1,2 @@
+mkdocs-material
+obsidian-bridge
