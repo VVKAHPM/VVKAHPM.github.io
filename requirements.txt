@@ -1,2 +1,2 @@
 mkdocs-material
-obsidian-bridge
+mkdocs-obsidian-bridge
