@@ -89,8 +89,8 @@ nav:
 
 plugins:
   - obsidian-bridge
-  - search
-      separator: '[\s\u200b\-]'
+  - search:
+    separator: '[\s\u200b\-]'
 
 markdown_extensions:
 
