@@ -89,6 +89,7 @@ nav:
 
 plugins:
   - obsidian-bridge
+  - search
 
 markdown_extensions:
 
