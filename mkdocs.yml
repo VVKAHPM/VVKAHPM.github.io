@@ -84,7 +84,12 @@ theme:
 
 nav:
 
-    - Home: index.md
+    
+  - Home: index.md
+  - Notes:
+    - Mathematics in Artificial Intelligence: 
+      - 前言: notes/Mathematics in Artificial Intelligence/前言.md
+      - 第一章 随机事件与概率: notes/Mathematics in Artificial Intelligence/第一章 随机事件与概率.md
 
 
 plugins:
