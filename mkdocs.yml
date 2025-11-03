@@ -57,27 +57,28 @@ theme:
   features:
 
     - content.code.copy
+
     - content.code.annotate
-    - content.tabs.link
-    - navigation.instant
-    - navigation.instant.progress
-    # - navigation.instant.preview
-    - navigation.tracking
-    - navigation.tabs
-    # - navigation.sections
-    # - navigation.expand
-    - navigation.path
-    - navigation.prune
-    - navigation.indexes
-    - navigation.top
-    - navigation.footer
-    - toc.follow
+
     # - toc.integrate
-    - search.suggest
+
+    - content.tabs.link
+
     - search.highlight
-    - search.share
-    - header.autohide
-    - content.action.edit
+
+    - search.suggest
+
+    - navigation.top
+
+    - navigation.tabs
+
+    - navigation.footer
+
+    - navigation.tracking
+
+    - navigation.instant.progress
+
+    - navigation.instant.preview
 
 nav:
 
