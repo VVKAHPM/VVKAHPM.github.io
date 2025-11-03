@@ -57,39 +57,45 @@ theme:
   features:
 
     - content.code.copy
-
     - content.code.annotate
-
-    # - toc.integrate
-
     - content.tabs.link
-
-    - search.highlight
-
-    - search.suggest
-
-    - navigation.top
-
-    - navigation.tabs
-
-    - navigation.sections
-
-    - navigation.footer
-
-    - navigation.tracking
-
+    - navigation.instant
     - navigation.instant.progress
-
-    - navigation.instant.preview
+    # - navigation.instant.preview
+    - navigation.tracking
+    - navigation.tabs
+    # - navigation.sections
+    # - navigation.expand
+    - navigation.path
+    - navigation.prune
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    # - toc.integrate
+    - search.suggest
+    - search.highlight
+    - search.share
+    - header.autohide
+    - content.action.edit
 
 nav:
 
-    
-  - Home: index.md
+  - About Me: index.md
   - Notes:
     - Mathematics in Artificial Intelligence: 
       - 前言: notes/Mathematics in Artificial Intelligence/前言.md
       - 第一章 随机事件与概率: notes/Mathematics in Artificial Intelligence/第一章 随机事件与概率.md
+      - 第二章 随机变量与概率分布: notes/Mathematics in Artificial Intelligence/第二章 随机变量与概率分布.md
+    - Data Structure and Algorithm:
+      - 第一章: notes/Data structure and Algorithm/第一章 引言.md
+      - 第二章: notes/Data structure and Algorithm/第二章 线性表.md
+      - 第三章: notes/Data structure and Algorithm/第三章 栈和队列.md
+      - 第四章: notes/Data structure and Algorithm/第四章 字符串.md
+      - 第五章: notes/Data structure and Algorithm/第五章 二叉树.md
+
+
+
 
 
 plugins:
@@ -165,3 +171,5 @@ extra_javascript:
 
 extra_css:
   - css/custom.css
+  - https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css
