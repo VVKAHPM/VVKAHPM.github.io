@@ -107,6 +107,7 @@ plugins:
 markdown_extensions:
 
   - obsidian_callouts
+  - markdown.extensions.nl2br
   - meta # 支持在 Markdown 文件头部添加元数据：
 
   - toc:  # 设置后在右侧边栏可以看到目录
