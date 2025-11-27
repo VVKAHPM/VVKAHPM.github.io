@@ -1,20 +1,36 @@
 
+
+h1 {
+    font-size: 3em; 
+    font-weight: 900;
+}
+/* 二级标题 */
+.md-typeset h2 {
+    font-size: 2em; 
+    font-weight: 900;
+}
+/* 三级标题 */
+.md-typeset h3 {
+    font-size: 1.5em; 
+    font-weight: 700;
+}
+
+h4 {
+    font-size: 1.2em; 
+    font-weight: 500;
+}
+
+@import url('https://static.zeoseven.com/zsft/292/main/result.css');
+
+body {
+    font-family: "Times New Roman","LXGW WenKai";
+    font-weight: bolder;
+}
+
 .md-typeset {
     font-size: 18px;  /* 默认是 0.8rem，约 12.8px */
 }
 
 .md-typeset .admonition {
     font-size: 16px;  
-}
-
-h1 {
-    font-size: 2.5em; 
-}
-/* 二级标题 */
-h2 {
-    font-size: 2em; 
-}
-/* 三级标题 */
-h3 {
-    font-size: 1.5em; 
 }
