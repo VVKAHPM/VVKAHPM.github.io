@@ -15,8 +15,8 @@ h1 {
 }
 /* 二级标题 */
 .md-typeset h2 {
-    font-size: 2em; 
-    font-weight: 900;
+    font-size: 1.8em; 
+    font-weight: 700;
 }
 /* 三级标题 */
 .md-typeset h3 {
@@ -31,6 +31,14 @@ h4 {
 
 body {
     font-family: "Roboto","LXGW WenKai";
+}
+
+.md-typeset strong {
+    /* 将字重修改为你想要的数值，例如 500 (中等粗细) */
+    font-weight: 1200; 
+    
+    /* 你也可以尝试其他数值，如 600 (半粗体) */
+    /* font-weight: 600; */
 }
 
 .md-typeset {
