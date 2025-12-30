@@ -1,0 +1,50 @@
+/* JetBrains Mono */
+@import url('https://fonts.loli.net/css?family=JetBrains Mono:400,500,600,700&display=swap');
+/* Noto Sans SC */
+@import url('https://fonts.loli.net/css2?family=Noto Sans SC&display=swap');
+/* 思源宋体 */
+@import url('https://fonts.googleapis.com/css2?family=Noto Serif SC&display=swap');
+/* Roboto Slab */
+@import url('https://fonts.googleapis.com/css2?family=Roboto Slab&display=swap');
+/* Roboto*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+h1 {
+    font-size: 3em; 
+    font-weight: 900;
+}
+/* 二级标题 */
+.md-typeset h2 {
+    font-size: 1.8em; 
+    font-weight: 700;
+}
+/* 三级标题 */
+.md-typeset h3 {
+    font-size: 1.5em; 
+    font-weight: 700;
+}
+
+h4 {
+    font-size: 1.2em; 
+    font-weight: 500;
+}
+
+body {
+    font-family: "Roboto","LXGW WenKai";
+}
+
+.md-typeset strong {
+    /* 将字重修改为你想要的数值，例如 500 (中等粗细) */
+    font-weight: 1200; 
+    
+    /* 你也可以尝试其他数值，如 600 (半粗体) */
+    /* font-weight: 600; */
+}
+
+.md-typeset {
+    font-size: 18px;  /* 默认是 0.8rem，约 12.8px */
+}
+
+.md-typeset .admonition {
+    font-size: 16px;  
+}

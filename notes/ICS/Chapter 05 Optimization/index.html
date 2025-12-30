@@ -1,0 +1,3001 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="WKAHPM">
+      
+      
+        <link rel="canonical" href="https://VVKAHPM.github.io/notes/ICS/Chapter%2005%20Optimization/">
+      
+      
+        <link rel="prev" href="../Chapter%2004%20Processor%20Architecture/">
+      
+      
+        <link rel="next" href="../Chapter%2006%20Cache/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/image/avatar.jpg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Chapter 05 Optimization - WKAHPM's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
+    
+      <link rel="stylesheet" href="../../../css/custom.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="white">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#51" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="WKAHPM&#39;s Blog" class="md-header__button md-logo" aria-label="WKAHPM's Blog" data-md-component="logo">
+      
+  <img src="../../../assets/image/avatar.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WKAHPM's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 05 Optimization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="white"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../lectures/Opening%20the%20Black%20Box/" class="md-tabs__link">
+          
+  
+  
+  Lectures
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../Computer%20Vision/Camera%20Calibration/" class="md-tabs__link">
+          
+  
+  
+  Notes
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="WKAHPM&#39;s Blog" class="md-nav__button md-logo" aria-label="WKAHPM's Blog" data-md-component="logo">
+      
+  <img src="../../../assets/image/avatar.jpg" alt="logo">
+
+    </a>
+    WKAHPM's Blog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lectures
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Lectures
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lectures/Opening%20the%20Black%20Box/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Opening the Black Box
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer Vision
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Computer Vision
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Vision/Camera%20Calibration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Calibration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Vision/Epipolar%20Geometry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Epipolar Geometry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Vision/Feature%20Detection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Vision/Image%20Processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Vision/Image%20Stitching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image Stitching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Vision/Multiview%20Stereo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiview Stereo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Vision/Some%20Math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Some Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Vision/Structure%20from%20Motion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Structure from Motion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Computer%20Vision/Two-View%20Stereo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Two View Stereo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data structure and Algorithm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data structure and Algorithm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Data%20structure%20and%20Algorithm/Chapter%2001%20%E5%BC%95%E8%A8%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 01 引言
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Data%20structure%20and%20Algorithm/Chapter%2002%20%E7%BA%BF%E6%80%A7%E8%A1%A8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 02 线性表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Data%20structure%20and%20Algorithm/Chapter%2003%20%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 03 栈和队列
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Data%20structure%20and%20Algorithm/Chapter%2004%20%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 04 字符串
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Data%20structure%20and%20Algorithm/Chapter%2005%20%E4%BA%8C%E5%8F%89%E6%A0%91/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 05 二叉树
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Data%20structure%20and%20Algorithm/Chapter%2006%20%E6%A0%91/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 06 树
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Data%20structure%20and%20Algorithm/Chapter%2007%20%E5%9B%BE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 07 图
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Data%20structure%20and%20Algorithm/Chapter%2008%20%E5%86%85%E6%8E%92%E5%BA%8F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 08 内排序
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Data%20structure%20and%20Algorithm/Chapter%2009%20%E5%A4%96%E6%8E%92%E5%BA%8F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 09 外排序
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ICS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ICS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter%2004%20Processor%20Architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 04 Processor Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 05 Optimization
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 05 Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 优化编译器的能力和局限性
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 表示程序性能
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 程序示例
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 消除循环的低效率
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#55" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 减少过程调用
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#56" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 消除不必要的内存引用
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#57" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 理解现代处理器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.7 理解现代处理器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#571" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7.1 整体操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#572" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7.2 功能单元的性能
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#573" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7.3 处理器操作的抽象模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#58" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.8 循环展开
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#59" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.9 提高并行性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.9 提高并行性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#591" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.9.1 多个累积变量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#592" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.9.2 重新结合变换
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#510" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.10 一些限制因素
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.10 一些限制因素">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.10.1 寄存器溢出
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.10.2 分支预测和预测错误处罚
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#511" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.11 理解内存性能
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.11 理解内存性能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.12.1 加载的性能
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5122" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.12.2 存储的性能
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter%2006%20Cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 06 Cache
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter%2007%20Linking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 07 Linking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter%2008%20ECF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 08 ECF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter%2009%20Virtual%20Memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 09 Virtual Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter%2010%20System%20IO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 System IO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter%2011.A%20Network%20%28Additional%20Content%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 11.A Network (Additional Content)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter%2011.B%20Network%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 11.B Network Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics in Artificial Intelligence
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics in Artificial Intelligence
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Mathematics%20in%20Artificial%20Intelligence/Chapter%200%20%E5%89%8D%E8%A8%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 0 前言
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Mathematics%20in%20Artificial%20Intelligence/Chapter%2001%20%E9%9A%8F%E6%9C%BA%E4%BA%8B%E4%BB%B6%E4%B8%8E%E6%A6%82%E7%8E%87/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 01 随机事件与概率
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Mathematics%20in%20Artificial%20Intelligence/Chapter%2002%20%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E4%B8%8E%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 02 随机变量与概率分布
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Mathematics%20in%20Artificial%20Intelligence/Chapter%2008%20%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 08 假设检验
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VCI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    VCI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VCI/Chapter%2007%20Anti-aliasing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 07 Anti aliasing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VCI/Chapter%2008%20Geometry%20Representations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 08 Geometry Representations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VCI/Chapter%2009%20Geometry%20Processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 09 Geometry Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VCI/Chapter%2010%20Geometry%20Reconstruction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 10 Geometry Reconstruction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VCI/Chapter%2012%20Shading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 12 Shading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VCI/Chapter%2020%20%E5%8A%A8%E7%94%BB%E5%8E%9F%E7%90%86/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 20 动画原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VCI/Ray%20Tracing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ray Tracing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 优化编译器的能力和局限性
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 表示程序性能
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 程序示例
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 消除循环的低效率
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#55" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 减少过程调用
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#56" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 消除不必要的内存引用
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#57" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 理解现代处理器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.7 理解现代处理器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#571" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7.1 整体操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#572" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7.2 功能单元的性能
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#573" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7.3 处理器操作的抽象模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#58" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.8 循环展开
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#59" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.9 提高并行性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.9 提高并行性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#591" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.9.1 多个累积变量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#592" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.9.2 重新结合变换
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#510" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.10 一些限制因素
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.10 一些限制因素">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.10.1 寄存器溢出
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.10.2 分支预测和预测错误处罚
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#511" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.11 理解内存性能
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.11 理解内存性能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.12.1 加载的性能
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5122" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.12.2 存储的性能
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Chapter 05 Optimization</h1>
+
+<h2 id="51">5.1 优化编译器的能力和局限性<a class="headerlink" href="#51" title="Permanent link">&para;</a></h2>
+<p>妨碍优化的因素:</p>
+<p><strong>内存别名使用</strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span>
+<span class="normal"><a href="#__codelineno-0-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">fun1</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="o">*</span><span class="n">xp</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="o">*</span><span class="n">yp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">    </span><span class="o">*</span><span class="n">xp</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">*</span><span class="n">yp</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">    </span><span class="o">*</span><span class="n">xp</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">*</span><span class="n">yp</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="p">}</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">fun2</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="o">*</span><span class="n">xp</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="o">*</span><span class="n">yp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">    </span><span class="o">*</span><span class="n">xp</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="w"> </span><span class="o">*</span><span class="n">yp</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>乍一看, 两个函数似乎有相同的行为, 下面的函数对内存的访问更少, 速度应该更快.</p>
+<p>但是考虑 xp=yp 的情况, fun1 相当于 *xp * 4, 而 fun2 相当于 *xp * 3. 因此, 编译器不能随便优化这样的代码.</p>
+<p><strong>函数调用:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kt">long</span><span class="w"> </span><span class="nf">f</span><span class="p">();</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kt">long</span><span class="w"> </span><span class="nf">func1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">f</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">();</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="p">}</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="kt">long</span><span class="w"> </span><span class="nf">func2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">f</span><span class="p">();</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>两个过程计算的都是相同的结果, 似乎 func2() 更快一些. 但是如果 f 函数有 <strong>副作用</strong>, 比如执行了某个全局变量 + 1, 那么调用一次 func1() 会 +4, 调用一次 fun2() 只会 +1, 因此编译器不能随便将 fun1() 优化成 fun2().</p>
+<div class="admonition note">
+<p class="admonition-title">用内联函数替换优化函数调用</p>
+<p>包含函数调用的代码可以用一个称为内联函数替换的过程进行优化, 此时, 将函数调用替换为函数体. 即修改函数调用的位置为函数代码.</p>
+<p>例如, 使用 inline 修饰 f, fun1() 的代码会变成这样:<br />
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span>
+<span class="normal"><a href="#__codelineno-2-7">7</a></span>
+<span class="normal"><a href="#__codelineno-2-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="cm">/* Result of inlining f in fun1 */</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="kt">long</span><span class="w"> </span><span class="nf">func1in</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">   </span><span class="kt">long</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">   </span><span class="kt">long</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">   </span><span class="kt">long</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">   </span><span class="kt">long</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div></p>
+<p>这样的转换减少了函数调用的开销, 同时允许对展开的代码做进一步优化.(可以理解成现在编译器看得到函数具体是怎么实现了, 所以可以更好优化)</p>
+<p>然而 GCC 只尝试在单个文件中定义的函数的内联, 因此无法应用于常见的在一个文件中定义函数, 被其他文件调用的情况.</p>
+<p>此外, 如果函数调用被内联替换优化过了, 那么任何对这个调用进行追踪或设置断点的尝试都会失败. 因此某些情况下最好阻止编译器执行内联替换.</p>
+</div>
+<h2 id="52">5.2 表示程序性能<a class="headerlink" href="#52" title="Permanent link">&para;</a></h2>
+<p>引入度量标准每元素周期数(CPE)作为表示程序性能并指导我们改进代码的方法. 对于一个运行时间是 an+b 个周期的程序来说(n为输入数据量), 我们可以认为 CPE 就是 a.</p>
+<h2 id="53">5.3 程序示例<a class="headerlink" href="#53" title="Permanent link">&para;</a></h2>
+<p>接下来我们会通过一步步优化一个程序学习如何优化.</p>
+<p>我们的程序有一些基本的设置:</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">len</span><span class="p">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="p">}</span><span class="w"> </span><span class="n">vec_rec</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">vec_ptr</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<p>data_t 可以是 int, long, float, double.</p>
+<p>还有一些生成向量, 访问元素, 确定长度的基本过程</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="n">vec_ptr</span><span class="w"> </span><span class="nf">new_vec</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="p">}</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="kt">int</span><span class="w"> </span><span class="nf">get_vec_element</span><span class="p">(</span><span class="n">vec_ptr</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">v</span><span class="o">-&gt;</span><span class="n">len</span><span class="p">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="w">    </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="p">}</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="kt">long</span><span class="w"> </span><span class="nf">vec_length</span><span class="p">(</span><span class="n">vec_ptr</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">v</span><span class="o">-&gt;</span><span class="n">len</span><span class="p">;</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>我们的示例代码如下:</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">combine1</span><span class="p">(</span><span class="n">vec_ptr</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">    </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IDENT</span><span class="p">;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">vec_length</span><span class="p">(</span><span class="n">v</span><span class="p">);</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="w">        </span><span class="n">data_t</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">        </span><span class="n">get_vec_element</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">        </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>如果是求和, 使用<br />
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="cp">#define IDENT 0</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="cp">#define OP +</span>
+</code></pre></div></td></tr></table></div></p>
+<p>如果是求积, 使用<br />
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="cp">#define IDENT 1</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="cp">#define OP **</span>
+</code></pre></div></td></tr></table></div></p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116185238.png" /></p>
+<h2 id="54">5.4 消除循环的低效率<a class="headerlink" href="#54" title="Permanent link">&para;</a></h2>
+<p>combine1 每次都调用了 vec_length, 向量长度不会变, 所以可以只调用一次. 于是我们可以得到 combine2</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">combine2</span><span class="p">(</span><span class="n">vec_ptr</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec_legnth</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">    </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IDENT</span><span class="p">;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="w">        </span><span class="n">data_t</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">        </span><span class="n">get_vec_element</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">        </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116185418.png" /></p>
+<p>这种优化称为代码移动, 通过识别要执行多次但结果不变的计算, 将计算移到前面不会多次求值的部分. 但是正如前面提到的函数的副作用, 编译器不会轻易地执行这种优化, 所以需要程序员手动进行.</p>
+<h2 id="55">5.5 减少过程调用<a class="headerlink" href="#55" title="Permanent link">&para;</a></h2>
+<p>我们可以发现对 v 的任意索引的访问其实都是合法的, 所以外面可以不需要执行边界检查. 因此我们用一个 get_vec_start 获取数组的起始地址, 然后直接访问数组.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span>
+<span class="normal"><a href="#__codelineno-9-11">11</a></span>
+<span class="normal"><a href="#__codelineno-9-12">12</a></span>
+<span class="normal"><a href="#__codelineno-9-13">13</a></span>
+<span class="normal"><a href="#__codelineno-9-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="nf">get_vec_start</span><span class="p">(</span><span class="n">vec_ptr</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">v</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="p">}</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">combine3</span><span class="p">(</span><span class="n">vec_ptr</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec_legnth</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_vec_start</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="w">    </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IDENT</span><span class="p">;</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12"></a><span class="w">        </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116185910.png" /></p>
+<p>令人吃惊的是, 性能没有明显提升, 事实上还略有下降. 显然, 其他操作形成了瓶颈. 我们会在后面再回到这个函数.</p>
+<h2 id="56">5.6 消除不必要的内存引用<a class="headerlink" href="#56" title="Permanent link">&para;</a></h2>
+<p>我们发现每次循环都要对 dest 寻址, 可以用一个累积变量 acc 替换, 这样每次循环就从两次读一次写变成了一次读.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span>
+<span class="normal"><a href="#__codelineno-10-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">combine4</span><span class="p">(</span><span class="n">vec_ptr</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec_legnth</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_vec_start</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IDENT</span><span class="p">;</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="w">        </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="w">    </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="p">;</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116190235.png" /></p>
+<p>由于内存别名的存在, 编译器不会轻易执行这样的优化, 因为对 dest 位置数据的更改可能导致 data[i] 发生变化. (比如令 dest=get_vec_start(v)+2)</p>
+<h2 id="57">5.7 理解现代处理器<a class="headerlink" href="#57" title="Permanent link">&para;</a></h2>
+<p>在代码级上, 看上去是一次执行一个指令, 但是实际的处理器中是同时对多条指令求值的, 这被称为指令级并行. 在某些设计中, 可以有 100 或更多条指令在处理中. 通过一些精细的机制确保这种并行执行的行为可以取得机器级程序顺序执行的结果. 这也被称为乱序执行技术.</p>
+<p>有两种下界描述了程序的最大性能, 当一系列操作必须按照严格顺序执行时, 就会遇到延迟界限(latency bound), 因为下一条指令必须等上一条指令执行完. 吞吐量界限刻画了处理器功能单元的原始计算能力, 这是程序性能的终极限制.</p>
+<h3 id="571">5.7.1 整体操作<a class="headerlink" href="#571" title="Permanent link">&para;</a></h3>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116192312.png" /><br />
+<img alt="" src="../attachments/Pasted%20image%2020251116192321.png" /></p>
+<p>指令控制单元: 负责从内存读指令, 然后生成一系列基本操作</p>
+<p>执行单元: 执行这些操作.</p>
+<p>一条指令可能被转化为多个操作, 例如</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a>addq %rax, 8(%rdx)
+</code></pre></div></td></tr></table></div>
+<p>就会被分解成三个操作: 从内存加载一个值到处理器, 操作加载进来的值加上 %rax 的值, 将结果存放回内存. 硬件单元可以并行地执行多条指令的不同部分.</p>
+<p>EU 接受取指单元发送过来的操作, 这些操作会被分派到一组功能单元中, 每个功能单元专门执行不同类型的操作.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>加载/存储单元有一个加法器来完成地址计算, 所以加载内存指令不用再被分割成更小的加法指令和读指令.</p>
+</div>
+<p>一种操作可能有多个功能单元可以执行, 利用这一点可以实现并行执行.</p>
+<p>在指令控制单元(ICU)中, 退役单元记录正在进行的处理, 并确保它遵守机器级程序的顺序语义. 简而言之, 它就是控制一条指令对程序员可见状态的更改能否生效. 并且按顺序生效. 因此可以把乱序执行技术看作先运算, 但是不实际更改程序员可见状态, 最后再按顺序使更改生效. </p>
+<p>为了运算结果的正确性, 执行单元之间可以彼此相互发送运算结果, 这就是 4.5.5 节中数据转发技术的更精细版本.</p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116193425.png" /></p>
+<p>简单来说, 要更新寄存器的命令生成一个标记 t. 将 (r,t) 加入表中. 通过计算得到 r 的新值 v, 生成结果 (v,t). 后面所有需要 r 的指令都可以根据 (r,t) 表中的 t 找到 (v,t) 中的 v. 如果表中没有条目说明没有未生效的写寄存器操作, 可以直接读寄存器.</p>
+<h3 id="572">5.7.2 功能单元的性能<a class="headerlink" href="#572" title="Permanent link">&para;</a></h3>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116193858.png" /></p>
+<p>整数和浮点数的加法乘法的发射时间都为 1, 说明在每个时钟周期处理器都可以开始一条新的这一的运行. 发射时间为 1 的功能单元称为完全流水线化的.</p>
+<p>表达发射时间还能用功能单元的最大吞吐量表示, 它定义为发射时间的倒数. (每时钟周期最多执行几条指令)</p>
+<p>对于一个容量为 C, 发射时间为 I 的操作, 处理器可能获得的吞吐量为每时钟周期 C/I 条指令.</p>
+<p>根据这些数据, 可以得到某个操作的延迟界限和吞吐量界限, 表里面的是 CPE 值.<br />
+<img alt="" src="../attachments/Pasted%20image%2020251116194330.png" /></p>
+<p>注意, 虽然有 4 个加法功能单元而且加法的发射时间为 1, 理论上可以达到 1/4=0.25 CPE(每个周期都有 4 条加法指令执行, 平均一个指令只需要 0.25 周期), 但是由于需要从内存读数据, 就造成了另一个吞吐量界限. 两个加载单元限制了处理器每个周期只能最多读取两个数据值, 使得吞吐量界限为 0.50.</p>
+<h3 id="573">5.7.3 处理器操作的抽象模型<a class="headerlink" href="#573" title="Permanent link">&para;</a></h3>
+<p>回忆一下 combine4, 可以看到除了整数加法其他操作基本都达到了延迟界限, 这表明这些函数的性能是由执行的求和或乘积运算主导的, 而且这些操作必须顺序执行.<br />
+<img alt="" src="../attachments/Pasted%20image%2020251116194841.png" /></p>
+<p><strong>从机器级代码到数据流图</strong></p>
+<p>我们可以把机器级代码划分为几个基本操作, 然后观察这之间的数据依赖关系, 以 combine4 为例.</p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116194959.png" /></p>
+<p>这里 vmulsd 会被分解为 load + mul 操作, 于是我们得到了如下数据流图</p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116195031.png" /></p>
+<p>我们可以将访问到的寄存器分为 4 类:</p>
+<ul>
+<li>只读: 只用作源值, 不被修改, 如 %rax</li>
+<li>只写: 只用作目的, 本例中没有这样的寄存器</li>
+<li>局部: 在循环内部修改和使用, 但迭代和迭代之间不相关, 例如条件码寄存器. 下一次迭代不需要上一次的条件码寄存器.</li>
+<li>循环: 这些寄存器既被使用又被修改, 例如 %rdx, %xmm0.</li>
+</ul>
+<p>循环寄存器之间的操作链决定了限制性能的数据相关.</p>
+<p>通过去除无关的变量, 保留数据依赖, 我们可以得到一张更加简洁的数据流图.</p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116195534.png" /></p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116195614.png" /></p>
+<p>简单的重复它 n 次, 就得到了内循环 n 次迭代的数据流表示. 可以看到由两条数据相关链. 由于浮点乘法延迟为 5 个周期, 整数加法延迟为 1 个周期, 因此左边的链会成为关键路径.</p>
+<p>可以看到整数加法并没有达到延迟界限 1.00 而是 1.27 , 可能是一些其他因素限制了性能, 例如功能单元之间传递数据的数量. 数据操作足够快, 使得其他操作供应数据的速度不够块(例如 load 耗时太久)</p>
+<h2 id="58">5.8 循环展开<a class="headerlink" href="#58" title="Permanent link">&para;</a></h2>
+<p><strong>k*1循环展开</strong></p>
+<p>每个循环执行 k 次操作, 只使用一个累积变量.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-12-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-12-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-12-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-12-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-12-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-12-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-12-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-12-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-12-10">10</a></span>
+<span class="normal"><a href="#__codelineno-12-11">11</a></span>
+<span class="normal"><a href="#__codelineno-12-12">12</a></span>
+<span class="normal"><a href="#__codelineno-12-13">13</a></span>
+<span class="normal"><a href="#__codelineno-12-14">14</a></span>
+<span class="normal"><a href="#__codelineno-12-15">15</a></span>
+<span class="normal"><a href="#__codelineno-12-16">16</a></span>
+<span class="normal"><a href="#__codelineno-12-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">combine5</span><span class="p">(</span><span class="n">vec_ptr</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec_legnth</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_vec_start</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IDENT</span><span class="p">;</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7"></a>
+<a id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">limit</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9"></a><span class="w">        </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">acc</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11"></a>
+<a id="__codelineno-12-12" name="__codelineno-12-12"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13"></a><span class="w">        </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15"></a>
+<a id="__codelineno-12-16" name="__codelineno-12-16"></a><span class="w">    </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="p">;</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116201056.png" /></p>
+<p>这种循环展开虽然减少了循环的开销(条件判断, 循环变量自增), 但是并没有实质改变数据依赖的关系, 每次循环的两个操作还是需要顺序执行.</p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116201229.png" /></p>
+<h2 id="59">5.9 提高并行性<a class="headerlink" href="#59" title="Permanent link">&para;</a></h2>
+<p>上面的循环展开不能利用发射时间为 1 达到吞吐量界限的根本原因在于只使用了一个累积遍历 acc. 在每次计算, 我们都要等待前面计算出的 acc 的新值.</p>
+<h3 id="591">5.9.1 多个累积变量<a class="headerlink" href="#591" title="Permanent link">&para;</a></h3>
+<p>对于可结合和可交换的合并运算来说, 比如整数加法或乘法, 我们可以通过将一组合并运算分割成两个或更多部分, 最后合并结果. 也就是使用多个累积变量. 这种循环展开方法称为 <strong>k*k循环展开</strong>.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-13-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-13-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-13-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-13-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-13-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-13-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-13-10">10</a></span>
+<span class="normal"><a href="#__codelineno-13-11">11</a></span>
+<span class="normal"><a href="#__codelineno-13-12">12</a></span>
+<span class="normal"><a href="#__codelineno-13-13">13</a></span>
+<span class="normal"><a href="#__codelineno-13-14">14</a></span>
+<span class="normal"><a href="#__codelineno-13-15">15</a></span>
+<span class="normal"><a href="#__codelineno-13-16">16</a></span>
+<span class="normal"><a href="#__codelineno-13-17">17</a></span>
+<span class="normal"><a href="#__codelineno-13-18">18</a></span>
+<span class="normal"><a href="#__codelineno-13-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">combine6</span><span class="p">(</span><span class="n">vec_ptr</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec_legnth</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_vec_start</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="n">acc0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IDENT</span><span class="p">;</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="n">acc1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IDENT</span><span class="p">;</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8"></a>
+<a id="__codelineno-13-9" name="__codelineno-13-9"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">limit</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10"></a><span class="w">        </span><span class="n">acc0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc0</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11"></a><span class="w">        </span><span class="n">acc1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc1</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13"></a>
+<a id="__codelineno-13-14" name="__codelineno-13-14"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15"></a><span class="w">        </span><span class="n">acc0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc0</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17"></a>
+<a id="__codelineno-13-18" name="__codelineno-13-18"></a><span class="w">    </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc0</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">acc1</span><span class="p">;</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116201718.png" /></p>
+<p>通过 2*2 循环展开, 我们将一条关键路径分成了两条关键路径, 每条路径上只有 n/2 个操作, 因此 CPE 大约是原来的一般.</p>
+<p>当 k 足够大时, 几乎所有情况下都能达到吞吐量界限. 虽然浮点乘更耗时, 但是它的吞吐量界限是浮点加的 1/2. 这是因为浮点乘有更多的功能单元.</p>
+<p>为了达到吞吐量界限, 我们需要保证能够执行该操作的所有功能单元的流水线都是满的, 一个延迟为 L, 容量为 C 的完全流水线化的操作, 一个周期至少要同时执行 C*L 条该操作才能把流水线填满. 因此这就要求 k&gt;=C*L.</p>
+<p>由于浮点加乘是不可结合的, 所以在使用这种展开的时候要格外小心.</p>
+<h3 id="592">5.9.2 重新结合变换<a class="headerlink" href="#592" title="Permanent link">&para;</a></h3>
+<p><strong>k*1a循环展开</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">C</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-14-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-14-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-14-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-14-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-14-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-14-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-14-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-14-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-14-10">10</a></span>
+<span class="normal"><a href="#__codelineno-14-11">11</a></span>
+<span class="normal"><a href="#__codelineno-14-12">12</a></span>
+<span class="normal"><a href="#__codelineno-14-13">13</a></span>
+<span class="normal"><a href="#__codelineno-14-14">14</a></span>
+<span class="normal"><a href="#__codelineno-14-15">15</a></span>
+<span class="normal"><a href="#__codelineno-14-16">16</a></span>
+<span class="normal"><a href="#__codelineno-14-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">combine7</span><span class="p">(</span><span class="n">vec_ptr</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec_legnth</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_vec_start</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="w">    </span><span class="n">data_t</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IDENT</span><span class="p">;</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7"></a>
+<a id="__codelineno-14-8" name="__codelineno-14-8"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">limit</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9"></a><span class="w">        </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11"></a>
+<a id="__codelineno-14-12" name="__codelineno-14-12"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13"></a><span class="w">        </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="n">OP</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15"></a>
+<a id="__codelineno-14-16" name="__codelineno-14-16"></a><span class="w">    </span><span class="o">*</span><span class="n">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc</span><span class="p">;</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>在 combine7 中, 我们将括号放在了后面. 这就是重新结合变换.</p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116203059.png" /></p>
+<p>因为循环变量 acc 在每次循环只执行了一次乘法, 因此关键路径上只有 n/2 次操作.</p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116203309.png" /></p>
+<p>CPE 分别是 5, 5/3*2, 5/3, 5/3, 5/3*2.</p>
+<h2 id="510">5.10 一些限制因素<a class="headerlink" href="#510" title="Permanent link">&para;</a></h2>
+<h3 id="5101">5.10.1 寄存器溢出<a class="headerlink" href="#5101" title="Permanent link">&para;</a></h3>
+<p>一旦循环变量的数量超过了可用寄存器的数量, 程序就必须在栈上分配一些变量, 因此展开次数过高不会有更好的结果.</p>
+<h3 id="5102">5.10.2 分支预测和预测错误处罚<a class="headerlink" href="#5102" title="Permanent link">&para;</a></h3>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116203859.png" /></p>
+<p><strong>1. 不要过分关心可预测的分支</strong></p>
+<p>combine3 中的边界检查我们总是预测检测成功, 因此对我们的性能没有什么影响.</p>
+<p><strong>2. 书写适合用条件传送实现的代码</strong></p>
+<h2 id="511">5.11 理解内存性能<a class="headerlink" href="#511" title="Permanent link">&para;</a></h2>
+<p>这里, 我们假设数据都存放在高速缓存中.</p>
+<h3 id="5121">5.12.1 加载的性能<a class="headerlink" href="#5121" title="Permanent link">&para;</a></h3>
+<p>对于两个加载单元, 每个时钟周期只能启动一条加载操作, 因此 CPE 不可能小于 0.5.</p>
+<p>利用链表我们可以得到加载操作的延迟大约是 4.00 CPE</p>
+<h3 id="5122">5.12.2 存储的性能<a class="headerlink" href="#5122" title="Permanent link">&para;</a></h3>
+<p>大多数情况, 存储操作能够在完全流水线的模式下工作, 每个周期开始一条新的存储.</p>
+<p>存储操作不影响任何寄存器值, 只有加载操作会受其影响, 因此可能会发生写/读相关</p>
+<p>跟我们之前讲的寄存器重命名类似, 存储操作有一个存储缓冲区, 包含已经发射到存储单元而没有完成的存储操作的地址和数据. 一个加载操作发生时, 必须先检查存储缓冲区的条目, 看有没有地址相匹配, 如果有就取出相应的数据条目作为结果.</p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116205233.png" /><img alt="" src="../attachments/Pasted%20image%2020251116205303.png" /></p>
+<p><img alt="" src="../attachments/Pasted%20image%2020251116205346.png" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../Chapter%2004%20Processor%20Architecture/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chapter 04 Processor Architecture">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Chapter 04 Processor Architecture
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Chapter%2006%20Cache/" class="md-footer__link md-footer__link--next" aria-label="Next: Chapter 06 Cache">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Chapter 06 Cache
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/VVKAHPM" target="_blank" rel="noopener" title="github" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:<978088232@qq.com>" target="_blank" rel="noopener" title="mail" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.code.annotate", "content.tabs.link", "search.highlight", "search.suggest", "navigation.top", "navigation.tabs", "navigation.footer", "navigation.tracking", "navigation.instant.progress", "navigation.instant.preview"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
