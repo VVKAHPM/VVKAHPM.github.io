@@ -121,12 +121,12 @@ hide:
   .profile-container {
     flex-direction: column;
   }
-  
+
   .profile-sidebar {
     flex: 1 1 auto;
     max-width: 100%;
   }
-  
+
   .profile-content {
     min-width: 100%;
   }
@@ -137,9 +137,9 @@ hide:
 
 <div class="profile-sidebar">
   <img src="assets/image/avatar.jpg" alt="avatar" class="profile-avatar">
-  
+
   <h3 class="profile-name">Yixuan Zheng</h3>
-  
+
   <div class="profile-description">
     Student at <a href="https://www.pku.edu.cn" target="_blank">Peking University</a><br><br>
     Focusing on Machine Learning, LLMs, and Model Interpretability.
@@ -152,14 +152,14 @@ hide:
       <i class="fa-solid fa-envelope"></i>
     </a>
           </div> 
-  
+
 </div>
 
 <div class="profile-content">
   <h3>👋 Self-Introduction </h3>
-  
+
   <p>I'm currently an undergraduate student at <a href="https://eecs.pku.edu.cn/index.htm" target="_blank">School of Electronics Engineering and Computer Science, Peking University</a>, majoring in <strong>Information and Computing Science</strong>.</p>
-   
+
    <h3>🎓 Education Experience</h3>
     <li>2025.09 - now <strong>Undergraduate in Information and Computing Science</strong> | <a href="https://eecs.pku.edu.cn/index.htm" target="_blank">School of Electronics Engineering and Computer Science, Peking University</a>
     </li>
@@ -167,7 +167,8 @@ hide:
     </li>
 
   <h3>🏆 Awards & Honors</h3>
-  
-</div>
 
-</div>
+ <li>2024-2025 <strong>Merit Student of Peking University</strong> (北京大学三好学生)
+    </li>
+    <li>2024-2025 <strong>Huatai Science and Technology Scholarship</strong> (华泰证券科技奖学金)
+    </li>
