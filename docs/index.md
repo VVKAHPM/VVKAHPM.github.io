@@ -172,3 +172,6 @@ hide:
     </li>
     <li>2024-2025 <strong>Huatai Science and Technology Scholarship</strong> (华泰证券科技奖学金)
     </li>
+
+  <li>2021,2022 <strong>First Prize, National Olympiad in Informatics in Provinces (NOIP)</strong> (全国青少年信息学奥林匹克联赛省一等奖)
+    </li>
