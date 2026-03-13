@@ -4,9 +4,6 @@ tags:
   - Lecture
 date: 2026-03-03
 ---
-
-# Information Theory
-
 ## Two purposes
 
 1. Quantify Info: **Entropy**
