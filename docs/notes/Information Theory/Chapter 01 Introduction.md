@@ -8,6 +8,7 @@ date: 2026-03-03
 # Information Theory
 
 ## Two purposes
+
 1. Quantify Info: **Entropy**
 2. Communication: **rate**
     - Noisy channel, maximal rate?

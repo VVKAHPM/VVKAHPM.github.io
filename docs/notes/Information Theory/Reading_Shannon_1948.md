@@ -11,7 +11,7 @@ date: 2026-03-03
 > [!info] Paper Info
 > - **Author**: [[Claude Shannon]]
 > - **Source**: *The Bell System Technical Journal*
-> - **Link**: [PDF](./A_Mathematics_Theory_of_Communication.pdf)
+> - **Link**: [PDF](A_Mathematics_Theory_of_Communication.pdf)
 
 ## Introduction
 
